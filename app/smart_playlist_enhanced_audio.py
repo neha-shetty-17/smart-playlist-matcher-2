@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🎵 Smart Playlist Matcher - Enhanced with Audio Playback
+Smart Playlist Matcher - Enhanced with Audio Playback
 Full dataset processing with enhanced model and audio playback
 """
 
@@ -81,14 +81,14 @@ def extract_improved_mood_features(audio_path):
         return enhanced_features
         
     except Exception as e:
-        print(f"⚠️  Error extracting improved features: {e}")
+        print(f"  Error extracting improved features: {e}")
         return None
 
 def load_model_and_database():
     """Load enhanced model and build feature database efficiently"""
     global model_data, feature_database, audio_metadata, model_path
     
-    print("🔄 Loading enhanced model and building feature database...")
+    print(" Loading enhanced model and building feature database...")
     start_time = time.time()
     
     # Load improved mood classifier
@@ -97,9 +97,9 @@ def load_model_and_database():
     if not model_path.exists():
         # Fallback to original enhanced model if improved model doesn't exist
         model_path = Path(__file__).resolve().parent / "models" / "smart_playlist_classifier_enhanced_fast.pkl"
-        print("⚠️  Using original enhanced model (improved model not found)")
+        print("  Using original enhanced model (improved model not found)")
     else:
-        print("✅ Using improved mood classifier with enhanced features")
+        print(" Using improved mood classifier with enhanced features")
     
     if not model_path.exists():
         raise FileNotFoundError(f"Enhanced model not found: {model_path}")
@@ -107,9 +107,9 @@ def load_model_and_database():
     with open(model_path, 'rb') as f:
         model_data = pickle.load(f)
     
-    print(f"✅ Enhanced model loaded successfully!")
-    print(f"📏 Feature count: {model_data['features']}")
-    print(f"🎯 Model type: {model_data.get('model_type', 'unknown')}")
+    print(f" Enhanced model loaded successfully!")
+    print(f" Feature count: {model_data['features']}")
+    print(f" Model type: {model_data.get('model_type', 'unknown')}")
     
     # Build feature database from dataset
     ROOT_DIR = Path(__file__).resolve().parent.parent
@@ -118,7 +118,7 @@ def load_model_and_database():
     arousal_file = "datasets/deam/DEAM_Annotations/annotations/annotations averaged per song/song_level/dynamic_annotations_averaged_songs_1-2000/dynamic_annotations_averaged_songs_1_2000.csv"
     
     # Load annotations for mood labels
-    print("📊 Loading annotations...")
+    print(" Loading annotations...")
     valence_df = pd.read_csv(ROOT_DIR / valence_file)
     arousal_df = pd.read_csv(ROOT_DIR / arousal_file)
     
@@ -167,13 +167,13 @@ def load_model_and_database():
         axis=1
     )
     
-    print(f"📋 Loaded {len(annotations)} annotations")
+    print(f" Loaded {len(annotations)} annotations")
     
     # Extract features for all audio files
     features_list = []
     metadata_list = []
     
-    print("🔧 Building feature database (processing all songs)...")
+    print(" Building feature database (processing all songs)...")
     
     processed_count = 0
     for idx, row in annotations.iterrows():
@@ -213,7 +213,7 @@ def load_model_and_database():
                         print(f"  Processed {processed_count}/{len(annotations)} songs ({speed:.1f} songs/sec, ETA: {eta:.0f}s)")
                         
             except Exception as e:
-                print(f"⚠️  Error processing {song_id}: {e}")
+                print(f"  Error processing {song_id}: {e}")
                 continue
     
     if features_list:
@@ -223,9 +223,9 @@ def load_model_and_database():
         end_time = time.time()
         processing_time = end_time - start_time
         
-        print(f"✅ Built database with {len(feature_database)} songs in {processing_time:.1f} seconds")
-        print(f"⚡ Processing speed: {len(feature_database)/processing_time:.1f} songs/second")
-        print(f"💾 Database size: {feature_database.nbytes/1024/1024:.1f} MB")
+        print(f" Built database with {len(feature_database)} songs in {processing_time:.1f} seconds")
+        print(f" Processing speed: {len(feature_database)/processing_time:.1f} songs/second")
+        print(f" Database size: {feature_database.nbytes/1024/1024:.1f} MB")
     else:
         raise ValueError("No features could be extracted from dataset")
 
@@ -289,9 +289,9 @@ async def startup_event():
     """Initialize the application"""
     try:
         load_model_and_database()
-        print("🚀 Enhanced Smart Playlist Matcher with Audio is ready!")
+        print(" Enhanced Smart Playlist Matcher with Audio is ready!")
     except Exception as e:
-        print(f"❌ Failed to initialize: {e}")
+        print(f" Failed to initialize: {e}")
 
 @app.get("/", response_class=HTMLResponse)
 async def home():
@@ -302,7 +302,7 @@ async def home():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎵 Enhanced Smart Playlist Matcher with Audio</title>
+    <title> Enhanced Smart Playlist Matcher with Audio</title>
     <style>
         * {
             margin: 0;
@@ -591,7 +591,7 @@ async def home():
 </head>
 <body>
     <div class="container">
-        <h1>🎵 Smart Playlist Matcher</h1>
+        <h1> Smart Playlist Matcher</h1>
         <p class="subtitle">
             Upload audio for mood prediction and recommendations
             <span class="enhanced-badge">ENHANCED</span>
@@ -600,7 +600,7 @@ async def home():
         
         <div class="upload-section">
             <div class="upload-area" onclick="document.getElementById('fileInput').click()">
-                <h3>📁 Upload Audio File</h3>
+                <h3> Upload Audio File</h3>
                 <p>Click to browse or drag & drop your MP3 file here</p>
                 <p><small>Enhanced with 163 features • Full dataset (~1700+ songs) • Audio playback included</small></p>
             </div>
@@ -624,7 +624,7 @@ async def home():
                 
                 <!-- Uploaded Audio Player -->
                 <div class="audio-player-section">
-                    <h4>🎵 Your Uploaded Audio</h4>
+                    <h4> Your Uploaded Audio</h4>
                     <audio id="uploadedAudio" controls class="audio-player" style="width: 100%; margin: 10px 0;">
                         Your browser does not support the audio element.
                     </audio>
@@ -633,13 +633,13 @@ async def home():
                 
                 <div class="features-grid">
                     <div class="feature-box">
-                        <h4>🎵 Tempo</h4>
+                        <h4> Tempo</h4>
                         <div><strong>Mean BPM:</strong> <span id="tempoMean">-</span></div>
                         <div><strong>Variability:</strong> <span id="tempoVar">-</span></div>
                         <div><strong>CV:</strong> <span id="tempoCV">-</span></div>
                     </div>
                     <div class="feature-box">
-                        <h4>🔊 Loudness</h4>
+                        <h4> Loudness</h4>
                         <div><strong>Mean Energy:</strong> <span id="loudnessMean">-</span></div>
                         <div><strong>Variability:</strong> <span id="loudnessVar">-</span></div>
                         <div><strong>CV:</strong> <span id="loudnessCV">-</span></div>
@@ -648,7 +648,7 @@ async def home():
             </div>
             
             <div class="recommendations">
-                <h3>🎧 Similar Songs Recommendations</h3>
+                <h3> Similar Songs Recommendations</h3>
                 <div id="songGrid" class="song-grid"></div>
             </div>
         </div>
@@ -663,7 +663,7 @@ async def home():
             
             // Show loading
             document.getElementById('results').style.display = 'block';
-            document.getElementById('moodDisplay').innerHTML = '🔄 Analyzing...';
+            document.getElementById('moodDisplay').innerHTML = ' Analyzing...';
             document.getElementById('songGrid').innerHTML = '<div class="loading">Processing audio and finding recommendations...</div>';
             
             // Set up uploaded audio player
@@ -673,7 +673,7 @@ async def home():
             // Create object URL for the uploaded file
             const audioUrl = URL.createObjectURL(file);
             uploadedAudio.src = audioUrl;
-            uploadedFileName.textContent = `📁 ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+            uploadedFileName.textContent = ` ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
             
             // Create form data
             const formData = new FormData();
@@ -692,7 +692,7 @@ async def home():
                 const result = await response.json();
                 
                 // Update prediction result
-                document.getElementById('moodDisplay').innerHTML = `🎵 ${result.mood}`;
+                document.getElementById('moodDisplay').innerHTML = ` ${result.mood}`;
                 
                 // Update mood percentages with visual bars
                 const moodPercentagesDiv = document.getElementById('moodPercentages');
@@ -738,7 +738,7 @@ async def home():
                 // Update confidence score
                 const confidencePercentage = (result.confidence * 100).toFixed(1);
                 document.getElementById('confidenceScore').innerHTML = 
-                    `🎯 Confidence: ${confidencePercentage}%`;
+                    ` Confidence: ${confidencePercentage}%`;
                 
                 // Update tempo features
                 document.getElementById('tempoMean').textContent = result.tempo.mean_bpm;
@@ -782,7 +782,7 @@ async def home():
                 
             } catch (error) {
                 console.error('Error:', error);
-                document.getElementById('moodDisplay').innerHTML = '❌ Error occurred';
+                document.getElementById('moodDisplay').innerHTML = ' Error occurred';
                 document.getElementById('songGrid').innerHTML = '<div class="error">Failed to analyze audio file. Please try again.</div>';
             }
         }
@@ -821,7 +821,7 @@ async def home():
                 // Create object URL for the uploaded file
                 const audioUrl = URL.createObjectURL(file);
                 uploadedAudio.src = audioUrl;
-                uploadedFileName.textContent = `📁 ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+                uploadedFileName.textContent = ` ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
             }
         });
     </script>
@@ -833,8 +833,8 @@ async def home():
 async def predict_and_recommend(file: UploadFile = File(...)):
     """Predict mood and recommend similar songs"""
     try:
-        print(f"📁 Received file: {file.filename}")
-        print(f"📄 Content type: {file.content_type}")
+        print(f" Received file: {file.filename}")
+        print(f" Content type: {file.content_type}")
         
         # Validate file type
         if not file.content_type or not file.content_type.startswith('audio/'):
@@ -842,51 +842,51 @@ async def predict_and_recommend(file: UploadFile = File(...)):
         
         # Save uploaded file temporarily
         temp_path = Path("temp_audio.mp3")
-        print(f"💾 Saving to: {temp_path}")
+        print(f" Saving to: {temp_path}")
         
         with open(temp_path, "wb") as buffer:
             content = await file.read()
             buffer.write(content)
         
-        print(f"✅ File saved, size: {temp_path.stat().st_size if temp_path.exists() else 0} bytes")
+        print(f" File saved, size: {temp_path.stat().st_size if temp_path.exists() else 0} bytes")
         
         try:
             # Extract features from uploaded audio
-            print("🔧 Extracting features...")
+            print(" Extracting features...")
             # Use improved feature extraction for better mood classification
             if 'improved_mood_classifier' in str(model_path):
                 features = extract_improved_mood_features(temp_path)
-                print("🎯 Using improved mood classifier with enhanced features")
+                print(" Using improved mood classifier with enhanced features")
             else:
                 features = extract_emotion_enhanced_features(temp_path)
-                print("🎯 Using original enhanced model")
+                print(" Using original enhanced model")
                 
             if features is None:
-                print("❌ Feature extraction returned None")
+                print(" Feature extraction returned None")
                 raise HTTPException(status_code=400, detail="Could not extract features from audio file")
             
-            print(f"✅ Features extracted, shape: {features.shape if hasattr(features, 'shape') else 'No shape'}")
+            print(f" Features extracted, shape: {features.shape if hasattr(features, 'shape') else 'No shape'}")
             
             # Check feature dimensions
             expected_features = model_data['features']
-            print(f"🎯 Expected features: {expected_features}")
+            print(f" Expected features: {expected_features}")
             
             if len(features) != expected_features:
-                print(f"⚠️ Feature dimension mismatch: got {len(features)}, expected {expected_features}")
+                print(f" Feature dimension mismatch: got {len(features)}, expected {expected_features}")
                 # Adjust features if needed
                 if len(features) > expected_features:
                     features = features[:expected_features]
-                    print(f"✂️ Trimmed features to: {len(features)}")
+                    print(f" Trimmed features to: {len(features)}")
                 else:
                     features = np.pad(features, (0, expected_features - len(features)), 'constant')
-                    print(f"➕ Padded features to: {len(features)}")
+                    print(f" Padded features to: {len(features)}")
             
-            print(f"🔧 Scaling features...")
+            print(f" Scaling features...")
             # Scale features using enhanced model scaler
             features_scaled = model_data['scaler'].transform(features.reshape(1, -1))[0]
-            print(f"✅ Features scaled, shape: {features_scaled.shape}")
+            print(f" Features scaled, shape: {features_scaled.shape}")
             
-            print(f"🎯 Making prediction...")
+            print(f" Making prediction...")
             # Predict mood using enhanced model
             mood = model_data['model'].predict([features_scaled])[0]
             mood_probabilities = model_data['model'].predict_proba([features_scaled])[0]
@@ -898,8 +898,8 @@ async def predict_and_recommend(file: UploadFile = File(...)):
             for i, mood_class in enumerate(mood_classes):
                 mood_percentages[mood_class] = float(mood_probabilities[i])
             
-            print(f"✅ Prediction: {mood} with confidence: {confidence}")
-            print(f"📊 All mood percentages: {mood_percentages}")
+            print(f" Prediction: {mood} with confidence: {confidence}")
+            print(f" All mood percentages: {mood_percentages}")
             
             # Extract engineered features for response (enhanced model has different feature structure)
             # For enhanced model, tempo and energy features are at the end
@@ -915,13 +915,13 @@ async def predict_and_recommend(file: UploadFile = File(...)):
                 tempo_mean = tempo_std = tempo_cv = 120
                 loudness_mean = loudness_std = loudness_cv = 0.5
             
-            print(f"🎵 Tempo: mean={tempo_mean}, std={tempo_std}, cv={tempo_cv}")
-            print(f"🔊 Loudness: mean={loudness_mean}, std={loudness_std}, cv={loudness_cv}")
+            print(f" Tempo: mean={tempo_mean}, std={tempo_std}, cv={tempo_cv}")
+            print(f" Loudness: mean={loudness_mean}, std={loudness_std}, cv={loudness_cv}")
             
-            print("🔍 Finding similar songs...")
+            print(" Finding similar songs...")
             # Find similar songs
             recommendations = find_similar_songs(features_scaled, top_k=5)
-            print(f"✅ Found {len(recommendations)} recommendations")
+            print(f" Found {len(recommendations)} recommendations")
             
             result = PredictionResponse(
                 mood=mood,
@@ -940,21 +940,21 @@ async def predict_and_recommend(file: UploadFile = File(...)):
                 recommendations=recommendations
             )
             
-            print(f"✅ Result prepared successfully")
+            print(f" Result prepared successfully")
             return result
             
         finally:
             # Clean up temporary file
             if temp_path.exists():
                 temp_path.unlink()
-                print(f"🗑️ Cleaned up temp file")
+                print(f" Cleaned up temp file")
                 
     except HTTPException:
         raise
     except Exception as e:
-        print(f"❌ DETAILED ERROR in prediction: {type(e).__name__}: {str(e)}")
+        print(f" DETAILED ERROR in prediction: {type(e).__name__}: {str(e)}")
         import traceback
-        print(f"❌ Traceback: {traceback.format_exc()}")
+        print(f" Traceback: {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=f"Error processing request: {str(e)}")
 
 # Mount static files for audio serving
