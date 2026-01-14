@@ -114,7 +114,7 @@ def train_improved_mood_classifier():
             else:
                 sad_songs.append(row)
         
-        print(f"📊 Original quadrant distribution:")
+        print(f"Original quadrant distribution:")
         print(f"   Happy: {len(happy_songs)} songs")
         print(f"   Energetic: {len(energetic_songs)} songs")
         print(f"   Calm: {len(calm_songs)} songs")
@@ -188,7 +188,7 @@ def train_improved_mood_classifier():
         
         balanced_df = pd.DataFrame(balanced_data)
         
-        print(f"\n✅ Perfectly balanced distribution:")
+        print(f"\nPerfectly balanced distribution:")
         mood_counts = balanced_df['mood'].value_counts()
         for mood, count in mood_counts.items():
             percentage = (count / len(balanced_df)) * 100
@@ -290,14 +290,14 @@ def train_improved_mood_classifier():
     
     # Cross-validation
     cv_scores = cross_val_score(ensemble, X_scaled, y, cv=5, scoring='f1_weighted')
-    print(f"🎯 Cross-validation F1 score: {cv_scores.mean():.3f} (+/- {cv_scores.std() * 2:.3f})")
+    print(f"Cross-validation F1 score: {cv_scores.mean():.3f} (+/- {cv_scores.std() * 2:.3f})")
     
     # Classification report
     y_pred = ensemble.predict(X_scaled)
-    print("\n📊 Classification Report:")
+    print("\n Classification Report:")
     print(classification_report(y, y_pred))
     
-    print("\n🎭 Mood Distribution:")
+    print("\n Mood Distribution:")
     mood_counts = pd.Series(y).value_counts()
     for mood, count in mood_counts.items():
         percentage = (count / len(y)) * 100
@@ -317,9 +317,9 @@ def train_improved_mood_classifier():
     with open(output_path, 'wb') as f:
         pickle.dump(improved_model_data, f)
     
-    print(f"\n✅ Improved mood classifier saved to: {output_path}")
-    print(f"📏 Enhanced features: {X.shape[1]}")
-    print(f"🎯 Model classes: {list(ensemble.classes_)}")
+    print(f"\n Improved mood classifier saved to: {output_path}")
+    print(f" Enhanced features: {X.shape[1]}")
+    print(f" Model classes: {list(ensemble.classes_)}")
     
     return improved_model_data
 
