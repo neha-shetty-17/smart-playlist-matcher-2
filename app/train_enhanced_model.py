@@ -115,7 +115,7 @@ def extract_emotion_enhanced_features(audio_path, duration=30):
         return all_features
         
     except Exception as e:
-        print(f"❌ Error extracting features from {audio_path}: {e}")
+        print(f" Error extracting features from {audio_path}: {e}")
         return None
 
 def extract_features_with_engineered_array(y, sr):
@@ -197,13 +197,13 @@ def extract_features_with_engineered_array(y, sr):
         return all_features
         
     except Exception as e:
-        print(f"❌ Error extracting features from audio array: {e}")
+        print(f" Error extracting features from audio array: {e}")
         return None
 
 def create_enhanced_classifier():
     """Create enhanced classifier with hyperparameter tuning"""
     
-    print("🔧 Creating Enhanced Classifier...")
+    print(" Creating Enhanced Classifier...")
     
     # Random Forest with class weights
     rf_classifier = RandomForestClassifier(
@@ -234,7 +234,7 @@ def create_enhanced_classifier():
 def hyperparameter_tuning(X, y):
     """Perform hyperparameter tuning"""
     
-    print("🔍 Performing Hyperparameter Tuning...")
+    print(" Performing Hyperparameter Tuning...")
     
     # Parameter grid for Random Forest
     rf_param_grid = {
@@ -262,15 +262,15 @@ def hyperparameter_tuning(X, y):
     
     grid_search.fit(X, y)
     
-    print(f"✅ Best parameters: {grid_search.best_params_}")
-    print(f"📊 Best cross-validation score: {grid_search.best_score_:.4f}")
+    print(f" Best parameters: {grid_search.best_params_}")
+    print(f" Best cross-validation score: {grid_search.best_score_:.4f}")
     
     return grid_search.best_estimator_
 
 def train_enhanced_model():
     """Train enhanced model with all improvements"""
     
-    print("🎵 Smart Playlist Matcher - ENHANCED Training")
+    print(" Smart Playlist Matcher - ENHANCED Training")
     print("=" * 60)
     
     # Initialize classifier
@@ -283,7 +283,7 @@ def train_enhanced_model():
     arousal_file = "datasets/deam/DEAM_Annotations/annotations/annotations averaged per song/song_level/dynamic_annotations_averaged_songs_1-2000/dynamic_annotations_averaged_songs_1_2000.csv"
     
     # Load original data with enhanced features
-    print("🔄 Loading data with enhanced features...")
+    print(" Loading data with enhanced features...")
     X_original = []
     y_original = []
     
@@ -336,22 +336,22 @@ def train_enhanced_model():
                     y_original.append(mood)
                     
         except Exception as e:
-            print(f"❌ Error processing {song_id}: {e}")
+            print(f" Error processing {song_id}: {e}")
             continue
     
     if len(X_original) == 0:
-        print("❌ No training data available!")
+        print(" No training data available!")
         return
     
-    print(f"📊 Original samples: {len(X_original)}")
-    print(f"📏 Feature dimension: {len(X_original[0])}")
+    print(f" Original samples: {len(X_original)}")
+    print(f" Feature dimension: {len(X_original[0])}")
     
     # Convert to numpy arrays
     X = np.array(X_original)
     y = np.array(y_original)
     
     # Scale features
-    print("🎯 Scaling features...")
+    print(" Scaling features...")
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
     
@@ -359,24 +359,24 @@ def train_enhanced_model():
     best_model = hyperparameter_tuning(X_scaled, y)
     
     # Cross-validation evaluation
-    print("📊 Performing Cross-Validation...")
+    print(" Performing Cross-Validation...")
     cv_scores = cross_val_score(best_model, X_scaled, y, cv=5, scoring='f1_weighted')
-    print(f"📈 Cross-validation F1 scores: {cv_scores}")
-    print(f"📊 Mean CV F1 score: {cv_scores.mean():.4f} (+/- {cv_scores.std() * 2:.4f})")
+    print(f" Cross-validation F1 scores: {cv_scores}")
+    print(f" Mean CV F1 score: {cv_scores.mean():.4f} (+/- {cv_scores.std() * 2:.4f})")
     
     # Train final model
-    print("🎯 Training Final Enhanced Model...")
+    print(" Training Final Enhanced Model...")
     best_model.fit(X_scaled, y)
     
     # Detailed evaluation
-    print("📊 Detailed Model Evaluation...")
+    print(" Detailed Model Evaluation...")
     y_pred = best_model.predict(X_scaled)
     
-    print("\n🎯 ENHANCED CLASSIFICATION REPORT:")
+    print("\n ENHANCED CLASSIFICATION REPORT:")
     print("=" * 50)
     print(classification_report(y, y_pred, target_names=MOODS))
     
-    print("\n🔍 CONFUSION MATRIX:")
+    print("\n CONFUSION MATRIX:")
     print("=" * 50)
     cm = confusion_matrix(y, y_pred)
     print("Predicted →")
@@ -403,11 +403,11 @@ def train_enhanced_model():
     with open(model_path, 'wb') as f:
         pickle.dump(model_data, f)
     
-    print(f"\n💾 Enhanced model saved to: {model_path}")
-    print(f"📏 Feature count: {len(X_original[0])}")
+    print(f"\n Enhanced model saved to: {model_path}")
+    print(f" Feature count: {len(X_original[0])}")
     
     # Test prediction
-    print(f"\n🧪 Testing enhanced prediction...")
+    print(f"\n Testing enhanced prediction...")
     test_audio = ROOT_DIR / audio_dir / "1.mp3"
     if test_audio.exists():
         try:
@@ -422,9 +422,9 @@ def train_enhanced_model():
                 print(f"  Mood: {prediction} (confidence: {confidence:.2f})")
                 print(f"  Probabilities: {dict(zip(MOODS, probabilities))}")
         except Exception as e:
-            print(f"❌ Test prediction failed: {e}")
+            print(f" Test prediction failed: {e}")
     
-    print(f"\n🎉 Enhanced Training Complete!")
+    print(f"\n Enhanced Training Complete!")
 
 if __name__ == "__main__":
     train_enhanced_model()
