@@ -1,19 +1,19 @@
-# 🎵 Smart Playlist Matcher - Perfectly Balanced Mood Classification
+# Smart Playlist Matcher - Perfectly Balanced Mood Classification
 
-## 🎯 Overview
+## Overview
 
 A sophisticated music mood classification system that analyzes audio files and categorizes them into four emotional states: **Happy, Energetic, Calm, and Sad**. Features perfectly balanced class distribution and enhanced audio feature extraction.
 
-## ✨ Key Features
+## Key Features
 
-- 🎭 **4 Mood Classes**: Perfectly balanced (25% each)
-- 🧠 **Ensemble Model**: RandomForest + GradientBoosting
-- 📊 **21 Enhanced Features**: Comprehensive audio analysis
-- 🎵 **Audio Playback**: Built-in music player
-- 🌐 **Web Interface**: Easy-to-use FastAPI application
-- 📈 **Multi-class Analysis**: Mood percentages with confidence scores
+- **4 Mood Classes**: Perfectly balanced (25% each)
+- **Ensemble Model**: RandomForest + GradientBoosting
+- **21 Enhanced Features**: Comprehensive audio analysis
+- **Audio Playback**: Built-in music player
+- **Web Interface**: Easy-to-use FastAPI application
+- **Multi-class Analysis**: Mood percentages with confidence scores
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Installation
 ```bash
@@ -32,9 +32,9 @@ python smart_playlist_enhanced_audio.py
 http://localhost:8002
 ```
 
-## 🎯 Mood Classification
+## Mood Classification
 
-### 📊 Emotional Quadrants
+### Emotional Quadrants
 ```
 High Valence + High Arousal     → Happy (130 BPM, 0.7 energy)
 Low Valence + High Arousal      → Energetic (140 BPM, 0.8 energy)  
@@ -42,13 +42,13 @@ High Valence + Low Arousal      → Calm (80 BPM, 0.3 energy)
 Low Valence + Low Arousal       → Sad (70 BPM, 0.25 energy)
 ```
 
-### 🎭 Mood Characteristics
-- **😊 Happy**: Positive emotions, upbeat tempo, moderate-high energy
-- **⚡ Energetic**: High intensity, fast tempo, high energy (even with negative valence)
-- **😌 Calm**: Relaxed state, slow tempo, low energy
-- **😢 Sad**: Negative emotions, slow tempo, low energy
+### Mood Characteristics
+- **Happy**: Positive emotions, upbeat tempo, moderate-high energy
+- **Energetic**: High intensity, fast tempo, high energy (even with negative valence)
+- **Calm**: Relaxed state, slow tempo, low energy
+- **Sad**: Negative emotions, slow tempo, low energy
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 smart-playlist-matcher-2/
@@ -62,21 +62,21 @@ smart-playlist-matcher-2/
 └── README.md                           # This file
 ```
 
-## 🔧 Technical Details
+## Technical Details
 
-### 📈 Model Performance
+### Model Performance
 - **Training Accuracy**: 100%
 - **Cross-validation F1**: 84.7% (±37.1%)
 - **Class Distribution**: Perfectly balanced (25% each)
 - **Feature Count**: 21 enhanced audio features
 
-### 🧠 Model Architecture
+### Model Architecture
 - **Ensemble**: VotingClassifier (RandomForest + GradientBoosting)
 - **RandomForest**: 200 trees, max depth 15
 - **GradientBoosting**: 150 estimators, learning rate 0.1
 - **Features**: 21 comprehensive audio features
 
-### 🎵 Audio Features (21 Total)
+### Audio Features (21 Total)
 1. **Base Features**: Valence, Arousal
 2. **Tempo Features**: Mean, Standard Deviation
 3. **Energy Features**: Mean, Standard Deviation
@@ -85,32 +85,32 @@ smart-playlist-matcher-2/
 6. **Mood-Specific Indicators**: Binary flags for each mood
 7. **Advanced Energy**: Combined energy, variability metrics
 
-## 🌐 Web Interface Features
+## Web Interface Features
 
-### 📤 Upload & Classify
+### Upload & Classify
 - Drag & drop audio files
 - Support for MP3, WAV, FLAC, AAC, OGG
 - Real-time mood classification
 - Multi-class mood percentages display
 
-### 🎵 Audio Playback
+### Audio Playback
 - Built-in audio player for uploaded files
 - Audio playback for recommended songs
 - Visual mood indicators with colors
 
-### 📊 Analysis Display
+### Analysis Display
 - **Mood Percentages**: All 4 moods with probabilities
 - **Confidence Scores**: Overall prediction confidence
 - **Visual Bars**: Animated mood percentage bars
 - **Color Coding**: Mood-specific colors (Happy=Red, Energetic=Orange, Calm=Blue, Sad=Teal)
 
-### 🎯 Recommendations
+### Recommendations
 - 5 similar songs based on mood
 - Cosine similarity matching
 - Audio playback for recommendations
 - Similarity scores displayed
 
-## 🎯 How to Use
+## How to Use
 
 ### 1. **Start the Application**
 ```bash
@@ -137,7 +137,7 @@ Navigate to `http://localhost:8002` in your browser
 - **Play Recommendations**: Click audio players
 - **View Details**: Tempo, energy, similarity scores
 
-## 🔧 Model Training
+## Model Training
 
 ### Retrain Model (Optional)
 ```bash
@@ -151,7 +151,7 @@ python improved_mood_classifier.py
 4. Trains ensemble model with cross-validation
 5. Saves model to `models/improved_mood_classifier.pkl`
 
-## 📋 Dependencies
+## Dependencies
 
 ### Core Requirements
 ```
@@ -172,9 +172,9 @@ pydub==0.25.1
 soundfile==0.12.1
 ```
 
-## 🎯 Model Limitations
+## Model Limitations
 
-### ⚠️ **IMPORTANT NOTE**
+### **IMPORTANT NOTE**
 **MODEL IS WORKING BUT HAS SOME ISSUE WITH CLASSIFICATION PART OPTIMAL**
 
 #### Current Limitations:
@@ -190,7 +190,7 @@ soundfile==0.12.1
 - **Real-world Testing**: More extensive validation with user feedback
 - **Feature Engineering**: Additional audio features for better discrimination
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -223,21 +223,21 @@ ls app/models/
 - **Multiple Moods**: Songs with mixed emotions may confuse classifier
 - **Unusual Genres**: Experimental music may not fit standard mood categories
 
-## 📈 Performance Metrics
+## Performance Metrics
 
-### 🎯 Classification Performance
+### Classification Performance
 - **Happy**: Precision 100%, Recall 100%
 - **Energetic**: Precision 100%, Recall 100%
 - **Calm**: Precision 100%, Recall 100%
 - **Sad**: Precision 100%, Recall 100%
 
-### ⚡ Processing Speed
+### Processing Speed
 - **Feature Extraction**: ~1.2 songs/second
 - **Database Building**: ~20 minutes for 1744 songs
 - **Prediction**: <1 second per audio file
 - **Memory Usage**: ~500MB for full database
 
-## 🤝 Contributing
+## Contributing
 
 ### How to Improve
 1. **Data Augmentation**: Add synthetic audio variations
@@ -256,11 +256,11 @@ git commit -m "Your improvements"
 git push origin master
 ```
 
-## 📄 License
+## License
 
 This project is open source and available under the MIT License.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **DEAM Dataset**: For emotion annotations
 - **Librosa**: For audio feature extraction
@@ -269,7 +269,7 @@ This project is open source and available under the MIT License.
 
 ---
 
-## 🎉 Ready to Use!
+## Ready to Use!
 
 **Your Smart Playlist Matcher is ready for mood classification!**
 
