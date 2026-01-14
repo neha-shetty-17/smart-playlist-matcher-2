@@ -179,13 +179,13 @@ def extract_features_with_engineered_array(y, sr):
         return features
         
     except Exception as e:
-        print(f"❌ Error extracting features from array: {e}")
+        print(f" Error extracting features from array: {e}")
         return None
 
 def extract_features_with_engineered(audio_path, duration=30):
     """Extract audio features including engineered tempo and loudness variability"""
     try:
-        print(f"🎵 Processing: {audio_path}")
+        print(f" Processing: {audio_path}")
         
         # Load audio file
         y, sr = librosa.load(audio_path, duration=duration)
@@ -211,7 +211,7 @@ def extract_features_with_engineered(audio_path, duration=30):
         chroma_mean = np.mean(chroma, axis=1)
         
         # === ENGINEERED FEATURE 1: TEMPO VARIABILITY ===
-        print("  📊 Extracting tempo variability...")
+        print("   Extracting tempo variability...")
         
         # Extract tempo across multiple windows to measure variability
         hop_length = 512
@@ -247,7 +247,7 @@ def extract_features_with_engineered(audio_path, duration=30):
             print(f"    Single tempo: {tempo_mean:.1f} BPM")
         
         # === ENGINEERED FEATURE 2: LOUDNESS VARIABILITY ===
-        print("  🔊 Extracting loudness variability...")
+        print("   Extracting loudness variability...")
         
         # Track loudness (RMS energy) over time
         loudness_values = []
@@ -314,11 +314,11 @@ def extract_features_with_engineered(audio_path, duration=30):
         # Combine all features
         features = np.concatenate([baseline_features, engineered_features])
         
-        print(f"  ✅ Extracted {len(features)} features")
+        print(f"  Extracted {len(features)} features")
         return features
         
     except Exception as e:
-        print(f"❌ Error extracting features from {audio_path}: {e}")
+        print(f" Error extracting features from {audio_path}: {e}")
         return None
 
 class SmartPlaylistClassifier:
@@ -342,7 +342,7 @@ class SmartPlaylistClassifier:
         """Prepare training data from DEAM dataset"""
         ROOT_DIR = Path(__file__).resolve().parent.parent
         
-        print("🎯 Loading DEAM dataset annotations...")
+        print(" Loading DEAM dataset annotations...")
         
         # Load annotations
         valence_df = pd.read_csv(ROOT_DIR / valence_file)
@@ -361,8 +361,8 @@ class SmartPlaylistClassifier:
             axis=1
         )
         
-        print(f"📊 Loaded {len(annotations)} annotated songs")
-        print("🎵 Mood distribution:")
+        print(f" Loaded {len(annotations)} annotated songs")
+        print(" Mood distribution:")
         print(annotations['mood'].value_counts())
         
         # Extract features for each song
@@ -370,7 +370,7 @@ class SmartPlaylistClassifier:
         y = []
         missing_files = []
         
-        print("\n🔧 Extracting features with engineered tempo & loudness variability...")
+        print("\n Extracting features with engineered tempo & loudness variability...")
         
         for idx, row in annotations.iterrows():
             song_id = row['song_id']
@@ -389,33 +389,33 @@ class SmartPlaylistClassifier:
                 continue
         
         if missing_files:
-            print(f"⚠️  Missing audio files: {len(missing_files)}")
+            print(f" Missing audio files: {len(missing_files)}")
         
         X = np.array(X)
         y = np.array(y)
         
-        print(f"✅ Successfully processed {len(X)} songs")
+        print(f" Successfully processed {len(X)} songs")
         return X, y
     
     def train(self, X, y):
         """Train the Random Forest classifier"""
-        print("\n🚀 Training Smart Playlist Classifier...")
+        print("\n Training Smart Playlist Classifier...")
         
         # Split data
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=0.2, random_state=42, stratify=y
         )
         
-        print(f"📊 Training set: {len(X_train)} samples")
-        print(f"📊 Test set: {len(X_test)} samples")
+        print(f" Training set: {len(X_train)} samples")
+        print(f" Test set: {len(X_test)} samples")
         
         # Scale features
-        print("🔧 Scaling features...")
+        print(" Scaling features...")
         X_train_scaled = self.scaler.fit_transform(X_train)
         X_test_scaled = self.scaler.transform(X_test)
         
         # Train model
-        print("🎯 Training Random Forest model...")
+        print(" Training Random Forest model...")
         self.model.fit(X_train_scaled, y_train)
         self.is_trained = True
         
@@ -424,14 +424,14 @@ class SmartPlaylistClassifier:
         accuracy = accuracy_score(y_test, y_pred)
         cm = confusion_matrix(y_test, y_pred)
         
-        print(f"\n🎉 Model Performance:")
-        print(f"📊 Accuracy: {accuracy:.4f} ({accuracy*100:.2f}%)")
-        print(f"\n📋 Classification Report:")
+        print(f"\n Model Performance:")
+        print(f" Accuracy: {accuracy:.4f} ({accuracy*100:.2f}%)")
+        print(f"\n Classification Report:")
         print(classification_report(y_test, y_pred, target_names=self.moods))
         
         # Feature importance
         feature_importance = self.model.feature_importances_
-        print(f"\n🎯 Top 15 Most Important Features:")
+        print(f"\n Top 15 Most Important Features:")
         top_indices = np.argsort(feature_importance)[-15:][::-1]
         
         feature_names = [
@@ -468,7 +468,7 @@ class SmartPlaylistClassifier:
         # Highlight engineered features
         engineered_indices = [len(feature_names)-6, len(feature_names)-5, len(feature_names)-4,
                             len(feature_names)-3, len(feature_names)-2, len(feature_names)-1]
-        print(f"\n🔧 Engineered Features Performance:")
+        print(f"\n Engineered Features Performance:")
         for idx in engineered_indices:
             if idx < len(feature_importance):
                 feature_name = feature_names[idx]
@@ -530,7 +530,7 @@ class SmartPlaylistClassifier:
         
         playlist = []
         
-        print(f"🎵 Generating {target_mood} playlist from {audio_directory}...")
+        print(f" Generating {target_mood} playlist from {audio_directory}...")
         
         for audio_file in audio_dir.glob("*.mp3"):
             if len(playlist) >= max_songs:
@@ -546,12 +546,12 @@ class SmartPlaylistClassifier:
                         'tempo': result['tempo'],
                         'loudness': result['loudness']
                     })
-                    print(f"  ✅ Added: {audio_file.name} (confidence: {result['confidence']:.2f})")
+                    print(f"  Added: {audio_file.name} (confidence: {result['confidence']:.2f})")
             except Exception as e:
-                print(f"  ❌ Error processing {audio_file}: {e}")
+                print(f"  Error processing {audio_file}: {e}")
                 continue
         
-        print(f"🎉 Generated playlist with {len(playlist)} songs")
+        print(f" Generated playlist with {len(playlist)} songs")
         return playlist
     
     def save_model(self, filepath):
@@ -569,7 +569,7 @@ class SmartPlaylistClassifier:
         with open(filepath, 'wb') as f:
             pickle.dump(model_data, f)
         
-        print(f"💾 Model saved to {filepath}")
+        print(f" Model saved to {filepath}")
     
     def load_model(self, filepath):
         """Load a trained model"""
@@ -581,7 +581,7 @@ class SmartPlaylistClassifier:
         self.moods = model_data['moods']
         self.is_trained = model_data['is_trained']
         
-        print(f"📂 Model loaded from {filepath}")
+        print(f" Model loaded from {filepath}")
 
 def prepare_augmented_training_data(audio_dir, valence_file, arousal_file):
     """Prepare training data with augmentation"""
@@ -607,8 +607,8 @@ def prepare_augmented_training_data(audio_dir, valence_file, arousal_file):
         "volume_loud"           # 120% volume
     ]
     
-    print(f"🔄 Starting data augmentation...")
-    print(f"📊 Original samples: {len(X_original)}")
+    print(f" Starting data augmentation...")
+    print(f" Original samples: {len(X_original)}")
     
     # Process each original sample
     for i, (features, mood) in enumerate(zip(X_original, y_original)):
@@ -626,7 +626,7 @@ def prepare_augmented_training_data(audio_dir, valence_file, arousal_file):
         try:
             y_orig, sr_orig = librosa.load(str(audio_path), duration=30)
         except Exception as e:
-            print(f"❌ Could not load {audio_path}: {e}")
+            print(f" Could not load {audio_path}: {e}")
             continue
         
         # Apply augmentations
@@ -643,15 +643,15 @@ def prepare_augmented_training_data(audio_dir, valence_file, arousal_file):
                     y_augmented.append(mood)
                     
             except Exception as e:
-                print(f"❌ Augmentation failed for {song_id} - {aug_type}: {e}")
+                print(f" Augmentation failed for {song_id} - {aug_type}: {e}")
                 continue
     
-    print(f"✅ Total augmented samples: {len(X_augmented)}")
+    print(f" Total augmented samples: {len(X_augmented)}")
     return np.array(X_augmented), np.array(y_augmented)
 
 def main():
     """Main training function with augmentation"""
-    print("🎵 Smart Playlist Matcher - AUGMENTED Training")
+    print(" Smart Playlist Matcher - AUGMENTED Training")
     print("=" * 60)
     
     # Initialize classifier
@@ -664,14 +664,14 @@ def main():
     arousal_file = "datasets/deam/DEAM_Annotations/annotations/annotations averaged per song/song_level/dynamic_annotations_averaged_songs_1-2000/dynamic_annotations_averaged_songs_1_2000.csv"
     
     # Prepare AUGMENTED training data
-    print("🔄 Starting data augmentation...")
+    print(" Starting data augmentation...")
     X_original, y_original = classifier.prepare_training_data(audio_dir, valence_file, arousal_file)
     
     if len(X_original) == 0:
-        print("❌ No training data available!")
+        print(" No training data available!")
         return
     
-    print(f"📊 Original samples: {len(X_original)}")
+    print(f" Original samples: {len(X_original)}")
     
     # Initialize augmented datasets
     X_augmented = []
@@ -709,7 +709,7 @@ def main():
         try:
             y_orig, sr_orig = librosa.load(str(audio_path), duration=30)
         except Exception as e:
-            print(f"❌ Could not load {audio_path}: {e}")
+            print(f" Could not load {audio_path}: {e}")
             continue
         
         # Apply limited augmentations
@@ -729,10 +729,10 @@ def main():
                     y_augmented.append(mood)
                     
             except Exception as e:
-                print(f"❌ Augmentation failed for {song_id} - {aug_type}: {e}")
+                print(f" Augmentation failed for {song_id} - {aug_type}: {e}")
                 continue
     
-    print(f"✅ Total augmented samples: {len(X_augmented)}")
+    print(f" Total augmented samples: {len(X_augmented)}")
     
     # Convert to numpy arrays and ensure 2D shape
     X = np.array(X_augmented)
@@ -748,12 +748,12 @@ def main():
     elif X.ndim == 1:
         X = X.reshape(-1, 1)
     
-    print(f"\n📊 Training with {len(X)} samples (original + augmented)")
-    print(f"📏 Feature array shape: {X.shape}")
+    print(f"\n Training with {len(X)} samples (original + augmented)")
+    print(f" Feature array shape: {X.shape}")
     
     # Split data with proper test size
     if len(X) < 20:
-        print("⚠️  Too few samples for splitting, using all for training")
+        print("  Too few samples for splitting, using all for training")
         X_train, X_test = X, X
         y_train, y_test = y, y
     else:
@@ -762,13 +762,13 @@ def main():
         )
     
     # Scale features
-    print("🎯 Scaling features...")
+    print(" Scaling features...")
     classifier.scaler = StandardScaler()
     X_train_scaled = classifier.scaler.fit_transform(X_train)
     X_test_scaled = classifier.scaler.transform(X_test)
     
     # Train model
-    print("🎯 Training Random Forest...")
+    print(" Training Random Forest...")
     classifier.model = RandomForestClassifier(
         n_estimators=200,
         max_depth=15,
@@ -783,12 +783,12 @@ def main():
     classifier.moods = ['happy', 'calm', 'angry', 'sad']
     
     # Evaluate
-    print("📊 Evaluating model...")
+    print(" Evaluating model...")
     y_pred = classifier.model.predict(X_test_scaled)
     accuracy = accuracy_score(y_test, y_pred)
     
-    print(f"\n🎉 Augmented Training Complete!")
-    print(f"📊 Final Accuracy: {accuracy:.4f} ({accuracy*100:.2f}%)")
+    print(f"\n Augmented Training Complete!")
+    print(f" Final Accuracy: {accuracy:.4f} ({accuracy*100:.2f}%)")
     
     # Save augmented model
     model_dir = ROOT_DIR / "models"
@@ -805,24 +805,24 @@ def main():
     with open(model_path, 'wb') as f:
         pickle.dump(model_data, f)
     
-    print(f"💾 Augmented model saved to: {model_path}")
+    print(f" Augmented model saved to: {model_path}")
     
     # Test prediction
-    print(f"\n🧪 Testing prediction on sample audio...")
+    print(f"\n Testing prediction on sample audio...")
     test_audio = ROOT_DIR / audio_dir / "1.mp3"
     if test_audio.exists():
         try:
             result = classifier.predict_mood(str(test_audio))
-            print(f"🎵 Sample prediction:")
+            print(f" Sample prediction:")
             print(f"  Mood: {result['mood']} (confidence: {result['confidence']:.2f})")
             print(f"  Tempo: {result['tempo']['mean_bpm']} BPM (variability: {result['tempo']['variability']})")
             print(f"  Loudness: {result['loudness']['mean_energy']:.4f} (variability: {result['loudness']['variability']:.4f})")
         except Exception as e:
-            print(f"❌ Test prediction failed: {e}")
+            print(f" Test prediction failed: {e}")
 
 def main_original():
     """Original main training function (for comparison)"""
-    print("🎵 Smart Playlist Matcher - Original Training (No Augmentation)")
+    print(" Smart Playlist Matcher - Original Training (No Augmentation)")
     print("=" * 60)
     
     # Initialize classifier
@@ -838,7 +838,7 @@ def main_original():
     X, y = classifier.prepare_training_data(audio_dir, valence_file, arousal_file)
     
     if len(X) == 0:
-        print("❌ No training data available!")
+        print(" No training data available!")
         return
     
     # Train model
@@ -849,9 +849,9 @@ def main_original():
     model_dir.mkdir(exist_ok=True)
     classifier.save_model(model_dir / "smart_playlist_classifier_original.pkl")
     
-    print(f"\n🎉 Original Training Complete!")
-    print(f"📊 Final Accuracy: {accuracy:.4f} ({accuracy*100:.2f}%)")
-    print(f"💾 Original model saved to: models/smart_playlist_classifier_original.pkl")
+    print(f"\n Original Training Complete!")
+    print(f" Final Accuracy: {accuracy:.4f} ({accuracy*100:.2f}%)")
+    print(f" Original model saved to: models/smart_playlist_classifier_original.pkl")
 
 if __name__ == "__main__":
     main()
