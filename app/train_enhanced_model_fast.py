@@ -88,7 +88,7 @@ def extract_emotion_enhanced_features(audio_path):
         return np.array(all_features)
         
     except Exception as e:
-        print(f"❌ Error processing {audio_path}: {e}")
+        print(f" Error processing {audio_path}: {e}")
         return None
 
 def create_optimized_ensemble():
@@ -128,7 +128,7 @@ def create_optimized_ensemble():
 def quick_hyperparameter_tuning(X, y):
     """Quick hyperparameter tuning with reduced search space"""
     
-    print("🔍 Performing Quick Hyperparameter Tuning...")
+    print(" Performing Quick Hyperparameter Tuning...")
     
     # Reduced parameter grid for speed
     rf_param_grid = {
@@ -157,15 +157,15 @@ def quick_hyperparameter_tuning(X, y):
     
     grid_search.fit(X, y)
     
-    print(f"✅ Best parameters: {grid_search.best_params_}")
-    print(f"📊 Best cross-validation score: {grid_search.best_score_:.4f}")
+    print(f" Best parameters: {grid_search.best_params_}")
+    print(f" Best cross-validation score: {grid_search.best_score_:.4f}")
     
     return grid_search.best_estimator_
 
 def train_enhanced_model_fast():
     """Train enhanced model with optimizations for speed"""
     
-    print("🚀 Smart Playlist Matcher - FAST ENHANCED Training")
+    print(" Smart Playlist Matcher - FAST ENHANCED Training")
     print("=" * 60)
     
     # Dataset paths
@@ -175,7 +175,7 @@ def train_enhanced_model_fast():
     arousal_file = "datasets/deam/DEAM_Annotations/annotations/annotations averaged per song/song_level/dynamic_annotations_averaged_songs_1-2000/dynamic_annotations_averaged_songs_1_2000.csv"
     
     # Load original data with enhanced features
-    print("🔄 Loading data with enhanced features...")
+    print(" Loading data with enhanced features...")
     X_original = []
     y_original = []
     
@@ -236,8 +236,8 @@ def train_enhanced_model_fast():
             if processed_count % 50 == 0:
                 print(f"  Processed {processed_count} samples...")
     
-    print(f"📊 Original samples: {len(X_original)}")
-    print(f"📏 Feature dimension: {len(X_original[0])}")
+    print(f" Original samples: {len(X_original)}")
+    print(f" Feature dimension: {len(X_original[0])}")
     
     # Convert to numpy arrays
     X = np.array(X_original)
@@ -249,7 +249,7 @@ def train_enhanced_model_fast():
     )
     
     # Scale features
-    print("🎯 Scaling features...")
+    print(" Scaling features...")
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
@@ -264,11 +264,11 @@ def train_enhanced_model_fast():
     ensemble.estimators[0] = ('rf', best_rf)
     
     # Train ensemble
-    print("🎯 Training optimized ensemble...")
+    print(" Training optimized ensemble...")
     ensemble.fit(X_train_scaled, y_train)
     
     # Evaluate
-    print("📊 Evaluating enhanced model...")
+    print(" Evaluating enhanced model...")
     y_pred = ensemble.predict(X_test_scaled)
     
     print(f"\n📈 Enhanced Model Results:")
@@ -281,12 +281,12 @@ def train_enhanced_model_fast():
     print(cm)
     
     # Cross-validation
-    print("🔄 Performing cross-validation...")
+    print(" Performing cross-validation...")
     cv_scores = cross_val_score(ensemble, X_train_scaled, y_train, cv=3, scoring='f1_weighted')
     print(f"CV Score: {cv_scores.mean():.4f} (+/- {cv_scores.std() * 2:.4f})")
     
     # Save model
-    print("💾 Saving enhanced model...")
+    print(" Saving enhanced model...")
     model_dir = ROOT_DIR / "app" / "models"
     model_dir.mkdir(exist_ok=True)
     
@@ -303,11 +303,11 @@ def train_enhanced_model_fast():
     with open(model_path, 'wb') as f:
         pickle.dump(model_data, f)
     
-    print(f"💾 Enhanced model saved to: {model_path}")
-    print(f"📏 Feature count: {len(X_original[0])}")
+    print(f" Enhanced model saved to: {model_path}")
+    print(f" Feature count: {len(X_original[0])}")
     
     # Test prediction
-    print(f"\n🧪 Testing enhanced prediction...")
+    print(f"\n Testing enhanced prediction...")
     test_audio = ROOT_DIR / audio_dir / "1.mp3"
     if test_audio.exists():
         try:
@@ -318,13 +318,13 @@ def train_enhanced_model_fast():
                 probabilities = ensemble.predict_proba(features_scaled)[0]
                 confidence = np.max(probabilities)
                 
-                print(f"🎵 Enhanced prediction:")
+                print(f"  Enhanced prediction:")
                 print(f"  Mood: {prediction} (confidence: {confidence:.2f})")
                 print(f"  Probabilities: {dict(zip(MOODS, probabilities))}")
         except Exception as e:
-            print(f"❌ Test prediction failed: {e}")
+            print(f" Test prediction failed: {e}")
     
-    print(f"\n🎉 FAST Enhanced Training Complete!")
+    print(f"\n FAST Enhanced Training Complete!")
 
 if __name__ == "__main__":
     train_enhanced_model_fast()
